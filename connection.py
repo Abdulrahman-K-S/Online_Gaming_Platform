@@ -1,4 +1,5 @@
-import redis # type: ignore
+import redis
+from cassandra.cluster import Cluster
 
 def getRedisConnection():
     """getRedisConnection
@@ -25,4 +26,9 @@ def getCassandraConnection():
     Return:
         ():
     """
-    pass
+    cluster = Cluster(['localhost'])
+    session = cluster.connect('game')
+    return session
+
+r = getRedisConnection()
+c = getCassandraConnection()
