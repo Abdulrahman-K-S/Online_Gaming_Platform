@@ -15,3 +15,14 @@ def getRedisConnection():
         password='',
         decode_responses=True)
     return r
+
+def getCassandraConnection():
+    """getCassandraConnection
+
+    This method establishes a connection & returns that
+    connection
+
+    Return:
+        ():
+    """
+    pass
