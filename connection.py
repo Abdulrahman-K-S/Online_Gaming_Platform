@@ -1,6 +1,7 @@
 import redis
 from cassandra.cluster import Cluster
 
+
 def getRedisConnection():
     """getRedisConnection
 
@@ -17,6 +18,7 @@ def getRedisConnection():
         decode_responses=True)
     return r
 
+
 def getCassandraConnection():
     """getCassandraConnection
 
@@ -29,6 +31,7 @@ def getCassandraConnection():
     cluster = Cluster(['localhost'])
     session = cluster.connect('game')
     return session
+
 
 r = getRedisConnection()
 c = getCassandraConnection()
