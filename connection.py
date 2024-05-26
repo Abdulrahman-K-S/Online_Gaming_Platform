@@ -1,3 +1,9 @@
+"""
+This module contains the methods that establishes the connections
+& contains 2 variables with the initalized connections for
+redis and cassandra
+"""
+
 import redis
 from cassandra.cluster import Cluster
 
