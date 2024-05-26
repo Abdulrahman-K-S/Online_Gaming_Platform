@@ -1,4 +1,7 @@
 """
+This module contains the functions that will update & retrieve
+to & from the redis DBMS about the real time stats which are
+player location, game event, and resources.
 """
 
 import json
