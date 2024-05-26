@@ -8,7 +8,7 @@ import json
 import time
 from typing import Dict, Literal
 
-redis = __import__('connection').r
+from connection import r as redis
 
 
 def update_player_location(player_id: int, position: Dict[str, int]):
