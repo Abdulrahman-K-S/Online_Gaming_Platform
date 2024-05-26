@@ -47,3 +47,27 @@ As such we choose to contain these valubale information in the Redis DBMS as its
         - `resource_id`: The resource id we want to retrieve it's details.
 
 </details>
+
+<br>
+
+# Social Features `social_features.py`
+
+This file will contain all the social & guild features for the game.
+
+<details>
+<summary><b>View functions & their details (Click to Show/Unshow)</b></summary>
+
+1. `def create_guild(guild_name, description, member_count, members):`
+    - This method's responsibility is to create a new guild and in cases where the guild is already present in the system return a message indicating that it's already created.
+    - Parameters are:
+        - `guild_name`: The unique identifier of the guilds in our system.
+        - `description`: The description of the guild to be displayed.
+        - `member_count`: The number of members in the guild which is set to 1 by default. For display purposes.
+        - `members`: A list of dictionaries containing the player's id, player's name, and their membership type in the guild.
+        
+2. `def add_guild_member(guild_name, member_info):`
+    - This method's responsibility is to add a member to an already exisiting guild and in case there is no exisiting guild display a message indiciating that.
+    - Parameters are:
+        - `guild_name`: The unique identifier to lookup with if the guild exists or not.
+        - `member_info`: The member details to be added to the `members` attribute in the guild.
+</details>
