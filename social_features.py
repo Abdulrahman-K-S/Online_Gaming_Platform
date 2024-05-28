@@ -98,7 +98,7 @@ def add_guild_to_player(player_id: int, guild_name: str, role: str):
     if exists:
         return (f"{player_id} is already in a guild.")
 
-    redis.hset(f"game:player:{player_id}:guild", mapping={
+    redis.hset(f"game:players:player:{player_id}:guild", mapping={
         'guild_name': guild_name,
         'role': role,
         'joined_at': int(time.time()),
