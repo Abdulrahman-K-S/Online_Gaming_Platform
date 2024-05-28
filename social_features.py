@@ -132,5 +132,3 @@ def add_guild_message(guild_name: str, player_id: int, content: str):
     redis.rpush(f"guild:{guild_name}:chat_history", json.dumps(message))
 
 
-# create_guild('Destroyers', 'We destroy worlds', 1, [{'player_id': 79, 'player_name': 'BeboDestroyer3', 'guild_type': 'Guild Master'}])
-# add_guild_member('Destroyers', {'player_id': 73, 'player_name': 'Slayer255', 'guild_type': 'Vice Master'})
