@@ -1,10 +1,5 @@
-from cassandra.cluster import Cluster
-from cassandra.auth import PlainTextAuthProvider
+from connection import c as cassandra
 import uuid
-
-# Connect to Cassandra
-cluster = Cluster(['DESKTOP-MQBVAVJ'])
-cassandra = cluster.connect('game')
 
 # Functions
 def insert_game_info(game_id, name, game_type, current_state, world_layout):
