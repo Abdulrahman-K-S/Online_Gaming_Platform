@@ -18,3 +18,13 @@ CREATE TABLE GameObject (
     attributes MAP<TEXT, TEXT>,
     PRIMARY KEY (game_id, object_id)
 );
+
+// Game Event Table Creation
+CREATE TABLE GameEvents (
+    event_id UUID,
+    event_type TEXT,
+    player_id INT,
+    timestamp TIMESTAMP,
+    event_details MAP<TEXT, TEXT>,
+    PRIMARY KEY (event_id)
+);
