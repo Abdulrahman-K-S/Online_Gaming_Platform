@@ -71,13 +71,8 @@ def create_dummy_statistics(player_id):
 
 
 def main():
-    # Assuming you have a player_id
     player_id = 4  
-
-    # Generate and store dummy statistics for the player
     create_dummy_statistics(player_id)
-
-    # Retrieve and print the player statistics
     player_stats = get_player_statistics(player_id)
     if player_stats:
         print(f"Player {player_id} Statistics:")
