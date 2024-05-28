@@ -154,4 +154,5 @@ def add_game_message(game_id, player_id, content):
         'content': content,
         'timestamp': int(time.time())
     }
-    redis.rpush("game:game_chat", json.dumps(message))
+    redis.rpush(f'game:{game_id}:game_chat', json.dumps(message))
+
