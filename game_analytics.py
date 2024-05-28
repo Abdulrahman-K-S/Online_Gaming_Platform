@@ -4,7 +4,6 @@ the game.
 """
 
 import time
-
 from connection import c as cassandra
 
 
@@ -53,3 +52,24 @@ def get_event_by_type(player_id):
     result_enemy_defeated = cassandra.execute(query_enemy_defeated, (player_id,))
     for row in result_enemy_defeated:
         print(f"Enemies Defeated: {row.enemy_defeated_count}")
+
+def insert_resource_utilization(resource_id, timestamp, resource_type, usage_metrics):
+    """insert_resource_utilization
+    
+    This function inserts a record into the resource_utilization table in
+    the Cassandra database. The record contains information about the utilization
+    of a resource at a specific timestamp.
+
+    Arguments:
+        resource_id (UUID): The unique identifier for the resource.
+        timestamp (datetime): The timestamp when the utilization data was recorded.
+        resource_type (str): The type of resource (e.g., CPU, Memory, Network).
+        usage_metrics (dict): A dictionary containing usage metrics of the resource,
+                              including 'usage', 'temperature', 'load', etc.
+    """
+    query = """
+    INSERT INTO ResourceUtilization (resource_id, timestamp, resource_type, usage_metrics)
+    VALUES (%s, %s, %s, %s)
+    """
+    cassandra.execute(query, (resource_id, timestamp, resource_type, usage_metrics))
+
