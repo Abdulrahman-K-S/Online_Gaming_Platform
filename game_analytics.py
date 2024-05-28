@@ -31,7 +31,11 @@ def insert_event(event_id, event_type, event_details, player_id):
 def get_event_by_type(player_id):
     """get_event_by_type
 
+    This function retrieves game events associated with a specific player ID from the
+    game_events table in the Cassandra database.
+
     Arguments:
+        player_id (UUID): The unique identifier for the player.
     """
     query_item_pickup = """
     SELECT COUNT(*) AS item_pickup_count
