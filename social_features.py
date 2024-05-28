@@ -38,6 +38,7 @@ def create_guild(guild_name: str, description: str,
         'created_at': int(time.time()),
         'updated_at': int(time.time())
     })
+    add_guild_to_player(members[0]['player_id'], guild_name, members[0]['guild_type'])
     return f"Guild {guild_name} created successfully."
 
 
@@ -48,8 +49,10 @@ def add_guild_member(guild_name: str, member_info: List[Dict[str, any]]):
     that member already exists or not in the guild.
 
     Arguments:
-        guild_name (str):
-        member_info (List[Dict[str, any]])
+        guild_name (str): The guild unique name.
+        member_info (List[Dict[str, any]]): A list of 3 items which are the
+                                            player_id, player_name, and
+                                            guild_type
 
     Return:
         (str): A message depending on whether the guild exists or not &
@@ -71,7 +74,7 @@ def add_guild_member(guild_name: str, member_info: List[Dict[str, any]]):
             'member_count': len(guild_members),
             'updated_at': int(time.time())
         })
-
+        add_guild_to_player(member_info['player_id'], guild_name, member_info['guild_type'])
         return (f"Member added to {guild_name} successfully")
     return (f"{member_info['player_name']} is already a part of {guild_name}")
 
@@ -86,6 +89,9 @@ def add_guild_to_player(player_id: int, guild_name: str, role: str):
         player_id (int): The player's unique id.
         guild_name (str): The guild's unique name.
         role (str): The role the member being added is in the guild.
+    """
+    exists = redis.exists(f"guild:{guild_name}")
+    if not exists:
         return (f"{guild_name} doesn't exist.")
 
     exists = redis.exists(f"game:player:{player_id}:guild")
