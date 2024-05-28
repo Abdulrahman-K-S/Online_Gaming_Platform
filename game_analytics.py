@@ -27,3 +27,29 @@ def insert_event(event_id, event_type, event_details, player_id):
     """
     timestamp = int(time.time() * 1000)
     cassandra.execute(query, (event_id, event_type, timestamp, event_details, player_id))
+
+
+def get_event_by_type(player_id):
+    """get_event_by_type
+
+    Arguments:
+    """
+    query_item_pickup = """
+    SELECT COUNT(*) AS item_pickup_count
+    FROM gameevents
+    WHERE player_id = %s AND event_type = 'item_pickup'
+    ALLOW FILTERING;
+    """
+    result_item_pickup = cassandra.execute(query_item_pickup, (player_id,))
+    for row in result_item_pickup:
+        print(f"Item Pickups: {row.item_pickup_count}")
+
+    query_enemy_defeated = """
+    SELECT COUNT(*) AS enemy_defeated_count
+    FROM gameevents
+    WHERE player_id = %s AND event_type = 'enemy_defeated'
+    ALLOW FILTERING;
+    """
+    result_enemy_defeated = cassandra.execute(query_enemy_defeated, (player_id,))
+    for row in result_enemy_defeated:
+        print(f"Enemies Defeated: {row.enemy_defeated_count}")
