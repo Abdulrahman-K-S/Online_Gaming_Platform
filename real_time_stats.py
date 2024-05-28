@@ -6,12 +6,13 @@ player location, game event, and resources.
 
 import json
 import time
+from uuid import uuid4
 from typing import Dict, Literal
-
+from game_analytics import insert_event
 from connection import r as redis
 
 
-def update_player_location(player_id: int, position: Dict[str, int]):
+def update_player_location(player_id: uuid4, position: Dict[str, int]):
     """update_player_location
 
     This method takes in the playerID that their position has changed
@@ -48,7 +49,7 @@ def get_player_location(player_id: int) -> Dict[str, int]:
     return (f"Player ID {player_id} not found")
 
 
-def update_game_event(event_id: int, player_id: int,
+def update_game_event(event_id: uuid4, player_id: int,
                       event_type: Literal['item_pickup', 'enemy_defeated'],
                       details: Dict[str, any]) -> int:
     """update_game_event
@@ -58,21 +59,22 @@ def update_game_event(event_id: int, player_id: int,
     an enemy.
 
     Arguments:
-        event_id (int): The event's id to be updated.
+        event_id (uuid4): The event's id to be updated.
         player_id (int): The player's id that caused the event update.
         event_type (Literal['item_pickup', 'enemy_defeated']): Type of event.
         details (Dict[str, any]): Additional details about the event.
     """
-    timestamp = time.time()
     redis.hset(f"game:event:{event_id}", mapping={
+        'event_id': str(event_id),
         'event_type': event_type,
         'player_id': player_id,
         'details': json.dumps(details),
-        'timestamp': timestamp
+        'timestamp': int(time.time() * 1000)
     })
+    insert_event(event_id, event_type, details, player_id)
 
 
-def get_game_event(event_id: int) -> Dict[str, any]:
+def get_game_event(event_id: uuid4) -> Dict[str, any]:
     """get_game_event
 
     This method retrieves the event details for the specific event id
