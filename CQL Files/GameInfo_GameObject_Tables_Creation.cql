@@ -28,3 +28,12 @@ CREATE TABLE GameEvents (
     event_details MAP<TEXT, TEXT>,
     PRIMARY KEY (event_id)
 );
+
+// ResourceUtilization Table Creation
+CREATE TABLE ResourceUtilization (
+    resource_id UUID,
+    timestamp TIMESTAMP,
+    resource_type TEXT,
+    usage_metrics MAP<TEXT, DOUBLE>,
+    PRIMARY KEY (resource_id, timestamp)
+) WITH CLUSTERING ORDER BY (timestamp DESC);
