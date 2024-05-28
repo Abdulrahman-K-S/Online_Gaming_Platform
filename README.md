@@ -4,6 +4,7 @@
 
 ## Tabel of Contents
 - [Introduction](#introduction)
+- [Data Architecture](#data-architecture)
     - [Player Data](#1-player-data-playerprofilespy-cassandra)
     - [Game Data](#2-game-data-game_info_handlerpy-cassandra)
     - [Game Object Data](#3-game-object-data-game_object_handlerpy-cassandra)
@@ -25,6 +26,8 @@ This project challenges us to design a data model for an online gaming platform 
 This project outlines the data requirements for an online gaming platform featuring real-time leaderboards and a rich user experience.
 
 <br>
+
+# Data Architecture
 
 ## 1. Player Data `PlayerProfiles.py` (Cassandra)
 The idea behind this script is to manage player profiles within a game. Player profiles include details such as achievements, email, friend list, inventory, profile picture, username, and password.
