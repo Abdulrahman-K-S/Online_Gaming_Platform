@@ -74,3 +74,30 @@ def add_guild_member(guild_name: str, member_info: List[Dict[str, any]]):
 
         return (f"Member added to {guild_name} successfully")
     return (f"{member_info['player_name']} is already a part of {guild_name}")
+
+
+def add_guild_to_player(player_id: int, guild_name: str, role: str):
+    """add_guild_to_player
+
+    This method takes responsibility for adding the guild's name in
+    the player account.
+
+    Arguments:
+        player_id (int): The player's unique id.
+        guild_name (str): The guild's unique name.
+        role (str): The role the member being added is in the guild.
+        return (f"{guild_name} doesn't exist.")
+
+    exists = redis.exists(f"game:player:{player_id}:guild")
+    if exists:
+        return (f"{player_id} is already in a guild.")
+
+    redis.hset(f"game:player:{player_id}:guild", mapping={
+        'guild_name': guild_name,
+        'role': role,
+        'joined_at': int(time.time()),
+        'last_active': int(time.time())
+    })
+    return (f"Player id {player_id} has been added to guild {guild_name}")
+
+
