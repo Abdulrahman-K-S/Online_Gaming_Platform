@@ -23,7 +23,7 @@ def update_player_location(player_id: int, position: Dict[str, int]):
         position (Dict[str, int]): The x & y position of the player.
     """
     timestamp = int(time.time())
-    redis.hset(f"game:player:location:{player_id}", mapping={
+    redis.hset(f"game:players:player:{player_id}:location", mapping={
         'position': json.dumps(position),
         'timestamp': timestamp
     })
@@ -42,7 +42,7 @@ def get_player_location(player_id: int) -> Dict[str, int]:
         (Dict[str, int]): The player's x & y position along with the
                                timestamp.
     """
-    player_location = redis.hgetall(f"game:player:location:{player_id}")
+    player_location = redis.hgetall(f"game:players:player:{player_id}:location")
     if player_location:
         return player_location
     return (f"Player ID {player_id} not found")
