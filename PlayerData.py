@@ -91,6 +91,18 @@ def add_friend(player_id, friend_id, friend_username):
     UPDATE player_profiles SET friend_list[%s] = %s WHERE player_id = %s
     """, (friend_id, friend_username, player_id))
 
+def print_profile(profile):
+    print(f"Player ID: {profile.player_id}")
+    print("Achievements:", ', '.join(profile.achievements))
+    print(f"Email: {profile.email}")
+    print("Friend List:")
+    for friend_id, friend_username in profile.friend_list.items():
+        print(f"  {friend_id}: {friend_username}")
+    print("Inventory:", profile.inventory)
+    print(f"Profile Picture: {profile.profile_picture}")
+    print(f"Username: {profile.username}")
+    print(f"Password: {profile.password}")
+
 def main():
     player_id = create_player_profile(
         achievements=['First Kill', 'Top Scorer'],
@@ -101,25 +113,38 @@ def main():
         username='destroyer',
         password='axe'
     )
-    print(f"Created player profile with ID: {player_id}")
+    print(f"Player profile created with ID: {player_id}\n")
 
     # Retrieving the player profile
+    print("Retrieving player profile...")
     profile = get_player_profile(player_id)
-    print(f"Retrieved player profile: {profile}")
+    print("Player profile retrieved successfully:")
+    print_profile(profile)
+    print()
 
     # Updating the player profile
+    print("Updating player profile...")
     update_player_profile(player_id, achievements=['First Kill', 'Top Scorer', 'Champion'])
+    print("Player profile updated successfully:")
     profile = get_player_profile(player_id)
-    print(f"Updated player profile: {profile}")
+    print_profile(profile)
+    print()
 
     # Adding a friend to the friend list
     new_friend_id = generate_unique_player_id()
     add_friend(player_id, new_friend_id, 'newfriend')
+    print("Added a friend to the player's friend list.")
+
+    # Retrieving the updated player profile
+    print("Retrieving updated player profile...")
     profile = get_player_profile(player_id)
-    print(f"Added friend to player profile: {profile}")
+    print("Updated player profile retrieved successfully:")
+    print_profile(profile)
+    print()
 
     # Deleting the player profile
+    print("Deleting player profile...")
     delete_player_profile(player_id)
-    print(f"Deleted player profile with ID: {player_id}")
+    print(f"Player profile with ID {player_id} deleted successfully.")
 
 main()
