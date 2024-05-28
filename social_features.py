@@ -32,7 +32,7 @@ def create_guild(guild_name: str, description: str,
         return (f"{guild_name} already exists.")
 
     redis.hset(f"guild:{guild_name}:{guild_name}", mapping={
-        'guild name': guild_name,
+        'guild_name': guild_name,
         'description': description,
         'member_count': member_count,
         'members': json.dumps(members),
