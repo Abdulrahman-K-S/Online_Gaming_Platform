@@ -141,8 +141,8 @@ def main():
     print()
 
     # Deleting the player profile
-    print("Deleting player profile...")
-    delete_player_profile(player_id)
-    print(f"Player profile with ID {player_id} deleted successfully.")
+    #print("Deleting player profile...")
+    #delete_player_profile(player_id)
+    #print(f"Player profile with ID {player_id} deleted successfully.")
 
 main()
