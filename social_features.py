@@ -107,3 +107,9 @@ def add_guild_to_player(player_id: int, guild_name: str, role: str):
     return (f"Player id {player_id} has been added to guild {guild_name}")
 
 
+    }
+    redis.rpush(f"guild:{guild_name}:chat_history", json.dumps(message))
+
+
+# create_guild('Destroyers', 'We destroy worlds', 1, [{'player_id': 79, 'player_name': 'BeboDestroyer3', 'guild_type': 'Guild Master'}])
+# add_guild_member('Destroyers', {'player_id': 73, 'player_name': 'Slayer255', 'guild_type': 'Vice Master'})
