@@ -6,6 +6,7 @@ player location, game event, and resources.
 
 import json
 import time
+import uuid
 from typing import Dict, Literal
 
 from connection import r as redis
@@ -48,7 +49,7 @@ def get_player_location(player_id: int) -> Dict[str, int]:
     return (f"Player ID {player_id} not found")
 
 
-def update_game_event(event_id: int, player_id: int,
+def update_game_event(event_id: uuid, player_id: int,
                       event_type: Literal['item_pickup', 'enemy_defeated'],
                       details: Dict[str, any]) -> int:
     """update_game_event
@@ -65,6 +66,7 @@ def update_game_event(event_id: int, player_id: int,
     """
     timestamp = time.time()
     redis.hset(f"game:event:{event_id}", mapping={
+        'event_id': event_id,
         'event_type': event_type,
         'player_id': player_id,
         'details': json.dumps(details),
