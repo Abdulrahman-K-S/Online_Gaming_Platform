@@ -6,7 +6,8 @@ is present in our game.
 import json
 import time
 from typing import Dict, List
-
+from Game_Info_Handler import game_exists
+from PlayerData import get_username
 from connection import r as redis
 
 
@@ -132,3 +133,25 @@ def add_guild_message(guild_name: str, player_id: int, content: str):
     redis.rpush(f"guild:{guild_name}:chat_history", json.dumps(message))
 
 
+def add_game_message(game_id, player_id, content):
+    """add_game_message
+
+    This method is responsible for adding the message of the game, if
+    that game exists, to the Redis DBMS along with whom sent it and when.
+
+    Parameter:
+        game_id (uuid): The game's unique identifier.
+        player_id (int): The player's unique identifier.
+        content (str): The message the player wrote.
+    """
+    exists = game_exists(game_id)
+    if not exists:
+        return (f"There is no game with {game_id}!")
+
+    message = {
+        'message_id': int(time.time()) / 100,
+        'player_name': get_username(player_id),
+        'content': content,
+        'timestamp': int(time.time())
+    }
+    redis.rpush("game:game_chat", json.dumps(message))
