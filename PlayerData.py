@@ -1,6 +1,4 @@
 from connection import c
-from uuid import uuid4
-
 
 c.set_keyspace("game")
 
