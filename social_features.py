@@ -107,6 +107,27 @@ def add_guild_to_player(player_id: int, guild_name: str, role: str):
     return (f"Player id {player_id} has been added to guild {guild_name}")
 
 
+def add_guild_message(guild_name: str, player_id: int, content: str):
+    """add_guild_message
+
+    This method is responsible for adding the messages of the guild,
+    if that guild exists, to the DBMS along with whom sent it and when.
+
+    Arguments:
+        guild_name (str): The guild's unique identifier.
+        player_id (int): The player's unique identifier.
+        content (str): The message which the player wrote.
+    """
+    exists = redis.exists(f"guild:{guild_name}:{guild_name}")
+    if not exists:
+        return (f"{guild_name} doesn't exist.")
+
+    message = {
+        'message_id': int(time.time()) / 100,
+        # 'player_name': # Add the getName from cassandra code #,
+        'player_id': player_id,
+        'content': content,
+        'timestamp': int(time.time())
     }
     redis.rpush(f"guild:{guild_name}:chat_history", json.dumps(message))
 
