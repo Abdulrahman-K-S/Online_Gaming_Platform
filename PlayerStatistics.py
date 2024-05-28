@@ -27,7 +27,7 @@ def update_resource_stats(player_stats, collection, crafting_materials):
     player_stats['resource_stats']['collection'] += collection
     player_stats['resource_stats']['crafting_materials'] += crafting_materials
 
-def update_progression_stats(player_stats, levels=0, quests_completed=0, playtime_hours=0):
+def update_progression_stats(player_stats, levels, quests_completed, playtime_hours):
     player_stats['progression_stats']['levels'] += levels
     player_stats['progression_stats']['quests_completed'] += quests_completed
     player_stats['progression_stats']['playtime_hours'] += playtime_hours
