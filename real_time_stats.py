@@ -12,7 +12,7 @@ from game_analytics import insert_event
 from connection import r as redis
 
 
-def update_player_location(player_id: uuid4, position: Dict[str, int]):
+def update_player_location(game_id, player_id: uuid4, position: Dict[str, int]):
     """update_player_location
 
     This method takes in the playerID that their position has changed
@@ -24,13 +24,13 @@ def update_player_location(player_id: uuid4, position: Dict[str, int]):
         position (Dict[str, int]): The x & y position of the player.
     """
     timestamp = int(time.time())
-    redis.hset(f"game:players:player:{player_id}:location", mapping={
+    redis.hset(f"game:{game_id}:players:player:{player_id}:location", mapping={
         'position': json.dumps(position),
         'timestamp': timestamp
     })
 
 
-def get_player_location(player_id: int) -> Dict[str, int]:
+def get_player_location(game_id, player_id: int) -> Dict[str, int]:
     """get_player_location
 
     This method retrieves the positions of the player if they're
@@ -43,13 +43,13 @@ def get_player_location(player_id: int) -> Dict[str, int]:
         (Dict[str, int]): The player's x & y position along with the
                                timestamp.
     """
-    player_location = redis.hgetall(f"game:players:player:{player_id}:location")
+    player_location = redis.hgetall(f"game:{game_id}:players:player:{player_id}:location")
     if player_location:
         return player_location
     return (f"Player ID {player_id} not found")
 
 
-def update_game_event(event_id: uuid4, player_id: int,
+def update_game_event(game_id, event_id: uuid4, player_id: int,
                       event_type: Literal['item_pickup', 'enemy_defeated'],
                       details: Dict[str, any]) -> int:
     """update_game_event
@@ -64,7 +64,7 @@ def update_game_event(event_id: uuid4, player_id: int,
         event_type (Literal['item_pickup', 'enemy_defeated']): Type of event.
         details (Dict[str, any]): Additional details about the event.
     """
-    redis.hset(f"game:event:{event_id}", mapping={
+    redis.hset(f"game:{game_id}:event:{event_id}", mapping={
         'event_id': str(event_id),
         'event_type': event_type,
         'player_id': player_id,
@@ -74,7 +74,7 @@ def update_game_event(event_id: uuid4, player_id: int,
     insert_event(event_id, event_type, details, player_id)
 
 
-def get_game_event(event_id: uuid4) -> Dict[str, any]:
+def get_game_event(game_id, event_id: uuid4) -> Dict[str, any]:
     """get_game_event
 
     This method retrieves the event details for the specific event id
@@ -87,13 +87,13 @@ def get_game_event(event_id: uuid4) -> Dict[str, any]:
         (Dict[str, any]): The game event details along with the type,
                           player id and the timestamp of the event.
     """
-    game_event = redis.hgetall(f"game:event:{event_id}")
+    game_event = redis.hgetall(f"game:{game_id}:event:{event_id}")
     if game_event:
         return game_event
     return (f"Event id {event_id} not found")
 
 
-def update_world_resource(resource_id: str, resource_type: str, quantity: int,
+def update_world_resource(game_id, resource_id: str, resource_type: str, quantity: int,
                           location: Dict[str, int]):
     """update_world_resource
 
@@ -107,7 +107,7 @@ def update_world_resource(resource_id: str, resource_type: str, quantity: int,
                                    a dictionary with keys 'x', 'y'.
     """
     timestamp = time.time()
-    redis.hset(f"game:world:resource:{resource_id}", mapping={
+    redis.hset(f"game:{game_id}:world:resource:{resource_id}", mapping={
         'type': resource_type,
         'quantity': quantity,
         'location': json.dumps(location),
@@ -115,7 +115,7 @@ def update_world_resource(resource_id: str, resource_type: str, quantity: int,
     })
 
 
-def get_world_resource(resource_id: str) -> Dict[str, any]:
+def get_world_resource(game_id, resource_id: str) -> Dict[str, any]:
     """get_world_resource
 
     This method retrieves the resource details for the specific resource id
@@ -127,7 +127,7 @@ def get_world_resource(resource_id: str) -> Dict[str, any]:
     Return:
         (Dict[str, any]): The resource details.
     """
-    game_event = redis.hgetall(f"game:world:resource:{resource_id}")
+    game_event = redis.hgetall(f"game:{game_id}:world:resource:{resource_id}")
     if game_event:
         return game_event
     return (f"Event id {resource_id} not found")
